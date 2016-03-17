@@ -1,4 +1,4 @@
-package org.demo.yuyang.tweetxmldemo;
+package org.demo.yuyang.tweetxmldemo.base;
 
 import android.app.Application;
 import android.content.Context;
@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.demo.yuyang.tweetxmldemo.R;
 import org.demo.yuyang.tweetxmldemo.util.StringUtils;
 
 /**

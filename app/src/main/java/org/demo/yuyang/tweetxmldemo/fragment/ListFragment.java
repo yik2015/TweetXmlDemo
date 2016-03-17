@@ -1,4 +1,4 @@
-package org.demo.yuyang.tweetxmldemo;
+package org.demo.yuyang.tweetxmldemo.fragment;
 
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;

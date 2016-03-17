@@ -60,6 +60,14 @@ public class AppConfig {
 
     public String get(String key) {
         Properties pros = get();
+        /**
+         * java.util.Properties
+         * public String getProperty(String name)
+         *
+         * Searches for the property with the specified name.
+         * If the property is not found, the default Properties are checked.
+         * If the property is not found in the default Properties, null is returned.
+         */
         return (pros != null) ? pros.getProperty(key) : null;
     }
 

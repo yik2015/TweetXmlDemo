@@ -8,6 +8,8 @@ import android.os.Build;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.PersistentCookieStore;
 
+import org.demo.yuyang.tweetxmldemo.api.ApiHttpClient;
+import org.demo.yuyang.tweetxmldemo.base.BaseApplication;
 import org.demo.yuyang.tweetxmldemo.bean.Constants;
 import org.demo.yuyang.tweetxmldemo.bean.User;
 import org.demo.yuyang.tweetxmldemo.cache.DataCleanManager;

@@ -1,6 +1,8 @@
-package org.demo.yuyang.tweetxmldemo;
+package org.demo.yuyang.tweetxmldemo.api;
 
 import android.os.Build;
+
+import org.demo.yuyang.tweetxmldemo.AppContext;
 
 /**
  * Created on 3/14/16.
