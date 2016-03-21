@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="white">#FFF</color>
+    <color name="day_layout_bg_normal">#f6f6f6</color>
+    <color name="day_layout_bg_pressed">#dfdfdf</color>
+    <color name="main_link_text_color">#ffbedfff</color>
+    <color name="timeline_clickable_text_highlighted_background">#ffbedfff</color>
 </resources>

@@ -1,22 +1,27 @@
 package org.demo.yuyang.tweetxmldemo;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+
+import org.demo.yuyang.tweetxmldemo.fragment.ListFragment;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class MainActivity extends AppCompatActivity {
 
-    @InjectView(R.id.text)
-    public TextView text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
-        text.setText("haha");
+        FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
+
+        ListFragment fragment = new ListFragment();
+
+        transaction.add(R.id.fragment_container, fragment);
+
+        transaction.commit();
     }
 }
