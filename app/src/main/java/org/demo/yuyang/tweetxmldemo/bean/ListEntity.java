@@ -6,6 +6,6 @@ import java.util.List;
 /**
  * Created on 3/13/16.
  */
-public interface ListEntity extends Serializable {
-    List<Tweet> getList();
+public interface ListEntity<T extends Entity> extends Serializable {
+    List<T> getList();
 }

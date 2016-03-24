@@ -116,6 +116,7 @@
 
             <TextView
                 android:id="@+id/tv_tweet_comment_count"
+                android:text="0"
                 style="@style/list_text_info" />
 
         </LinearLayout>

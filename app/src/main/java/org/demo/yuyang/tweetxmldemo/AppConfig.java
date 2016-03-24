@@ -85,7 +85,7 @@ public class AppConfig {
         } finally {
             try {
                 fis.close();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
