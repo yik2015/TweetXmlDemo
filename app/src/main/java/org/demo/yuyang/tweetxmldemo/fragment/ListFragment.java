@@ -15,6 +15,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import org.demo.yuyang.tweetxmldemo.R;
 import org.demo.yuyang.tweetxmldemo.adapter.ListFragmentAdapter;
 import org.demo.yuyang.tweetxmldemo.api.remote.OSChinaApi;
+import org.demo.yuyang.tweetxmldemo.bean.Entity;
 import org.demo.yuyang.tweetxmldemo.bean.ListEntity;
 import org.demo.yuyang.tweetxmldemo.bean.Tweet;
 import org.demo.yuyang.tweetxmldemo.bean.TweetsList;
@@ -32,7 +33,23 @@ import cz.msebera.android.httpclient.Header;
 /**
  * Created on 3/13/16.
  */
-public class ListFragment extends Fragment {
+public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+    /**
+     * Content is empty, need to fetch from web or cache. (or Content is finish loaded?)
+     */
+    public static final int STATE_NONE = 0;
+    /**
+     * SwipeRefresh, or EmptyLayout's onClick.
+     */
+    public static final int STATE_REFRESH = 1;
+    /**
+     * Scroll to end, loading more.
+     */
+    public static final int STATE_LOADMORE = 2;
+    public static final int STATE_NOMORE = 3;
+    public static final int STATE_PRESSNONE = 4;// 正在下拉但还没有到刷新的状态
+    public static int mState = STATE_NONE;
+
     private int mCurrentPage = 0;
     private ParserTask mParserTask;
 
@@ -42,15 +59,17 @@ public class ListFragment extends Fragment {
     @InjectView(R.id.listview)
     protected ListView mListView;
 
-//    protected ListBaseAdapter<Tweet> mAdapter;
     protected ListFragmentAdapter mAdapter;
 
-    private int mCatalog = -1;
+    private int mCatalog = 0;
 
     protected AsyncHttpResponseHandler mHandler = new AsyncHttpResponseHandler() {
         @Override
         public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
             if (isAdded()) {
+                if (mState == STATE_REFRESH) {
+                    onrefreshNetworkSuccess();
+                }
                 executeParserTask(responseBody);
             }
         }
@@ -60,6 +79,43 @@ public class ListFragment extends Fragment {
 
         }
     };
+
+    private void onrefreshNetworkSuccess() {
+    }
+
+    @Override
+    public void onRefresh() {
+        if (mState == STATE_REFRESH) {
+            return;
+        }
+
+        mListView.setSelection(0);
+        setSwipeRefreshLoadingState();
+        mCurrentPage = 0;
+        mState = STATE_REFRESH;
+
+        requestData(true);
+    }
+
+    protected void requestData(boolean refresh) {
+        // TODO cache.
+
+        sendRequestData();
+    }
+
+    protected void setSwipeRefreshLoadingState() {
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setRefreshing(true);
+            mSwipeRefreshLayout.setEnabled(false);
+        }
+    }
+
+    protected void setSwipeRefreshLoadedState() {
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setRefreshing(false);
+            mSwipeRefreshLayout.setEnabled(true);
+        }
+    }
 
     class ParserTask extends AsyncTask<Void, Void, String> {
         private final byte[] responseData;
@@ -74,10 +130,14 @@ public class ListFragment extends Fragment {
         protected String doInBackground(Void... params) {
             try {
                 ListEntity data = parseList(new ByteArrayInputStream(responseData));
+                // TODO Save cache.
 
                 list = data.getList();
+
+                // TODO handle error.
             } catch (Exception e) {
                 e.printStackTrace();
+                parserError = true;
             }
             return null;
         }
@@ -85,8 +145,18 @@ public class ListFragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            executeOnLoadDataSuccess(list);
+            if (parserError) {
+                // TODO read cache.
+            } else {
+                executeOnLoadDataSuccess(list);
+                executeOnLoadFinish();
+            }
         }
+    }
+
+    protected void executeOnLoadFinish() {
+        setSwipeRefreshLoadedState();
+        mState = STATE_NONE;
     }
 
 
@@ -117,6 +187,11 @@ public class ListFragment extends Fragment {
 
     public void initView(View view) {
         // TODO swipeRefresh
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeResources(
+                R.color.swiperefresh_color1, R.color.swiperefresh_color2,
+                R.color.swiperefresh_color3, R.color.swiperefresh_color4
+        );
 
         if (mAdapter != null) {
             mListView.setAdapter(mAdapter);
@@ -138,11 +213,29 @@ public class ListFragment extends Fragment {
         }
 
         if (mCurrentPage == 0) {
-            // TODO
-//            mAdapter.clear();
+            mAdapter.clear();
+        }
+
+        for (int i = 0; i < data.size(); i++) {
+            if (compareTo(mAdapter.getData(), data.get(i))) {
+                data.remove(i);
+                i--;
+            }
         }
 
         mAdapter.addData(data);
+    }
+
+    protected boolean compareTo(List<? extends Entity> data, Entity entity) {
+        if (entity != null) {
+            for (int i = 0; i < data.size(); i++) {
+                if (entity.getId() == data.get(i).getId()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     private void executeParserTask(byte[] data) {

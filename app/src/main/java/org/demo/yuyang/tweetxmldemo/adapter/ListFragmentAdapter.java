@@ -50,6 +50,10 @@ public class ListFragmentAdapter<T extends Entity> extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    public ArrayList<T> getData() {
+        return mDatas == null ? (mDatas = new ArrayList<>()) : mDatas;
+    }
+
     // Get the row id associated with the specified position in the list.
     @Override
     public long getItemId(int position) {
@@ -95,6 +99,11 @@ public class ListFragmentAdapter<T extends Entity> extends BaseAdapter {
         tweet.setLikeUsers(context, vh.likeUsers, true);
 
         return convertView;
+    }
+
+    public void clear() {
+        mDatas.clear();
+        notifyDataSetChanged();
     }
 
     static class ViewHolder {

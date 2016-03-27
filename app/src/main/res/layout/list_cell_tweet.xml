@@ -105,18 +105,19 @@
 
             <TextView
                 android:id="@+id/tv_like_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginRight="12dp"
                 android:text="@string/fa_thumbs_o_up"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textColor="@color/gray"
+                android:textSize="15sp" />
 
             <IconTextView
                 style="@style/list_text_info"
-                android:text="{fa-comments-o}"/>
+                android:text="{fa-comments-o}" />
 
             <TextView
                 android:id="@+id/tv_tweet_comment_count"
-                android:text="0"
                 style="@style/list_text_info" />
 
         </LinearLayout>
