@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
-import org.demo.yuyang.tweetxmldemo.fragment.ListFragment;
+import org.demo.yuyang.tweetxmldemo.viewpagerfragment.TweetsViewPagerFragment;
 
 import butterknife.ButterKnife;
 
@@ -18,7 +18,8 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentTransaction transaction=getSupportFragmentManager().beginTransaction();
 
-        ListFragment fragment = new ListFragment();
+//        ListFragment fragment = new ListFragment();
+        TweetsViewPagerFragment fragment = new TweetsViewPagerFragment();
 
         transaction.add(R.id.fragment_container, fragment);
 

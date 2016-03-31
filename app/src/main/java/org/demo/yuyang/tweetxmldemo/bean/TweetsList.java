@@ -17,8 +17,11 @@ public class TweetsList extends Entity implements ListEntity<Tweet>{
 
     @XStreamAlias("tweetcount")
     private int tweetCount;
+
     @XStreamAlias("pagesize")
+
     private int pagesize;
+
     @XStreamAlias("tweets")
     private List<Tweet> tweetList = new ArrayList<>();
 

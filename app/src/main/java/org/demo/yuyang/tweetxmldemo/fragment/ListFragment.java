@@ -34,6 +34,8 @@ import cz.msebera.android.httpclient.Header;
  * Created on 3/13/16.
  */
 public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+    public static final String BUNDLE_KEY_CATALOG = "BUNDLE_KEY_CATALOG";
+
     /**
      * Content is empty, need to fetch from web or cache. (or Content is finish loaded?)
      */
@@ -168,6 +170,15 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         OSChinaApi.getTweetList(mCatalog, mCurrentPage, mHandler);
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle args = getArguments();
+        if (args != null) {
+            mCatalog = args.getInt(BUNDLE_KEY_CATALOG);
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -181,6 +192,9 @@ public class ListFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (mCatalog > 0) return;
+
         ButterKnife.inject(this, view);
         initView(view);
     }
