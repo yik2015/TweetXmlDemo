@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Created on 3/15/16.
  */
-public class Base implements Serializable{
+public class Base implements Serializable {
 
     @XStreamAlias("notice")
     protected Notice notice;

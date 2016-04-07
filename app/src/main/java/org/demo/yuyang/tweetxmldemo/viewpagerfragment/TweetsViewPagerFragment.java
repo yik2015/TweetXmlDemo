@@ -8,7 +8,7 @@ import org.demo.yuyang.tweetxmldemo.adapter.ViewPageFragmentAdapter;
 import org.demo.yuyang.tweetxmldemo.base.BaseListFragment;
 import org.demo.yuyang.tweetxmldemo.base.BaseViewPagerFragment;
 import org.demo.yuyang.tweetxmldemo.bean.TweetsList;
-import org.demo.yuyang.tweetxmldemo.fragment.ListFragment;
+import org.demo.yuyang.tweetxmldemo.fragment.TweetsFragment;
 import org.demo.yuyang.tweetxmldemo.interf.OnTabReselectListener;
 
 /**
@@ -22,11 +22,17 @@ public class TweetsViewPagerFragment extends BaseViewPagerFragment
         String[] title = getResources().getStringArray(
                 R.array.tweets_viewpage_arrays);
 
-        adapter.addTab(title[0], "new_tweets", ListFragment.class,
+//        adapter.addTab(title[0], "new_tweets", ListFragment.class,
+//                getBundle(TweetsList.CATALOG_LATEST));
+//        adapter.addTab(title[1], "hot_tweets", ListFragment.class,
+//                getBundle(TweetsList.CATALOG_HOT));
+//        adapter.addTab(title[2], "my_tweets", ListFragment.class,
+//                getBundle(TweetsList.CATALOG_ME));
+        adapter.addTab(title[0], "new_tweets", TweetsFragment.class,
                 getBundle(TweetsList.CATALOG_LATEST));
-        adapter.addTab(title[1], "hot_tweets", ListFragment.class,
+        adapter.addTab(title[1], "hot_tweets", TweetsFragment.class,
                 getBundle(TweetsList.CATALOG_HOT));
-        adapter.addTab(title[2], "my_tweets", ListFragment.class,
+        adapter.addTab(title[2], "my_tweets", TweetsFragment.class,
                 getBundle(TweetsList.CATALOG_ME));
     }
 
@@ -52,5 +58,10 @@ public class TweetsViewPagerFragment extends BaseViewPagerFragment
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    protected void setScreenPageLimit() {
+        mViewPager.setOffscreenPageLimit(3);
     }
 }
